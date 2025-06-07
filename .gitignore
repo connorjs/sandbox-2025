@@ -1,0 +1,8 @@
+# Build
+artifacts/
+node_modules/
+
+# IDEs
+*.user
+.idea/
+.vs/
