@@ -1,0 +1,6 @@
+is_global = true
+
+# CSharpier - https://csharpier.com/docs/IntegratingWithLinters
+
+## Code Analysis conflicts with CSharpier
+dotnet_diagnostic.IDE0055.severity = none
