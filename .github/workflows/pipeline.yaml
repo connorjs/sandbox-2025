@@ -1,0 +1,96 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  CiBuild:
+    name: CI Build
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout self
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full depth (not shallow) for GitVersion
+
+      - name: Set up GitVersion
+        uses: gittools/actions/gitversion/setup@v3.2.1
+        with:
+          versionSpec: 6.3.x
+
+      - name: Execute GitVersion
+        id: GitVersion
+        uses: gittools/actions/gitversion/execute@v3.2.1
+        with:
+          overrideConfig: |
+            workflow=GitHubFlow/v1
+            mode=ContinuousDeployment
+          updateProjectFiles: true
+
+      - name: Use .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          global-json-file: global.json
+
+      - name: Print .NET versions
+        run: dotnet --list-sdks
+
+      - name: Install SonarQube scanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: sonarscanner begin
+        run: >-
+          dotnet sonarscanner begin
+          -d:sonar.token='${{ secrets.SONAR_TOKEN }}'
+          -d:sonar.host.url='https://sonarcloud.io'
+          -d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
+          -d:sonar.exclusions='**/*.json,**/*.props'
+          -d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
+          -k:${{ github.repository.replace('/', '_')}} -o:${{ github.repository_owner }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Install
+        run: dotnet restore
+
+      - name: CI build
+        run: dotnet test -c Release --no-restore
+
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.7
+        with:
+          reports: artifacts/*/test-results/*.cobertura.xml
+          targetdir: artifacts/report
+          reporttypes: Cobertura;HtmlInline;MarkdownSummaryGithub;SonarQube
+
+      - name: sonarscanner end
+        if: ${{ !cancelled() }} # Still publish Sonar if tests failed
+        run: dotnet sonarscanner end -d:sonar.token='${{ secrets.SONAR_TOKEN }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Publish coverage in build summary
+        if: ${{ !cancelled() }} # Still publish coverage if tests failed
+        run: cat artifacts/report/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage report to Codecov
+        if: ${{ !cancelled() }} # Still upload to CodeCov if tests failed
+        uses: codecov/codecov-action@v5
+        with:
+          disable_search: true
+          fail_ci_if_error: true
+          files: artifacts/*/test-results/*.cobertura.xml
+          flags: unittests
+          plugins: noop
+          token: ${{ secrets.CODECOV_TOKEN }}
