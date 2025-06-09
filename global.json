@@ -3,7 +3,7 @@
 		"MSTest.Sdk": "3.9.1"
 	},
   "sdk": {
-    "version": "9.0.0",
+    "version": "9.0.300",
     "rollForward": "latestMajor",
     "allowPrerelease": true
   }
