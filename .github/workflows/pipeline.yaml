@@ -21,6 +21,15 @@ jobs:
         with:
           fetch-depth: 0 # Full depth (not shallow) for GitVersion
 
+      - name: Use .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          global-json-file: global.json
+
+      - name: Print .NET versions
+        run: dotnet --list-sdks
+
       - name: Set up GitVersion
         uses: gittools/actions/gitversion/setup@v3.2.1
         with:
@@ -34,15 +43,6 @@ jobs:
             workflow=GitHubFlow/v1
             mode=ContinuousDeployment
           updateProjectFiles: true
-
-      - name: Use .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.x
-          global-json-file: global.json
-
-      - name: Print .NET versions
-        run: dotnet --list-sdks
 
       - name: Install SonarQube scanner
         run: dotnet tool install --global dotnet-sonarscanner
