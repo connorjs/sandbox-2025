@@ -1,0 +1,10 @@
+﻿<Project Sdk="MSTest.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Connorjs.Sandbox2025.HelloCs.Tests</AssemblyName>
+		<RootNamespace>Connorjs.Sandbox2025.HelloCs.Tests</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HelloCs\HelloCs.csproj" />
+		<PackageReference Include="AwesomeAssertions" />
+	</ItemGroup>
+</Project>
