@@ -55,11 +55,11 @@ jobs:
           -d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
           -d:sonar.exclusions='**/*.json,**/*.props'
           -d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
-          -k:"$SONAR_PROJECT_KEY" -o:${{ github.repository_owner }}
+          -k:"${GITHUB_REPOSITORY//\//_}"
+          -o:"$GITHUB_REPOSITORY_OWNER"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ github.repository.replace('/', '_') }}
 
       - name: Install
         run: dotnet restore
