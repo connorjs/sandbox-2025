@@ -1,40 +1,35 @@
 <Project>
 	<!-- This file configures Properties and Items that could live in a shared analyzers package. -->
-
 	<PropertyGroup Condition="'$(CI)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<!-- MSBuild properties (for .NET) -->
 		<!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props -->
-
 		<!-- Build-related properties -->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-
 		<!-- Code analysis properties -->
 		<AnalysisMode>Recommended</AnalysisMode>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers> <!-- Defaults to true in .NET 5+ -->
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<!-- Defaults to true in .NET 5+ -->
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
 		<!-- Reference-related properties -->
-		<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences> <!-- Prefer explicit dependencies -->
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally> <!-- Use Central Package Management (CPM) -->
-
+		<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
+		<!-- Prefer explicit dependencies -->
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<!-- Use Central Package Management (CPM) -->
 		<!-- VSTest-related properties -->
-		<IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject> <!-- Configure test property with common naming -->
-
+		<IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>
+		<!-- Configure test property with common naming -->
 		<!-- Generated file properties -->
-		<ImplicitUsings>disable</ImplicitUsings> <!-- Prefer explicit usings -->
-
+		<ImplicitUsings>disable</ImplicitUsings>
+		<!-- Prefer explicit usings -->
 		<!-- C# compiler options -->
 		<!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/ -->
-
 		<!-- Language -->
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<Nullable>enable</Nullable>
-
 		<!-- Errors and warnings -->
 		<!--
 		1. Default all warns to errors (`TreatWarningsAsErrors`).
@@ -47,22 +42,18 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<WarningsNotAsErrors />
 		<NoWarn />
-
 		<!-- Code generation -->
 		<Deterministic>true</Deterministic>
 	</PropertyGroup>
-
 	<!-- Overrides for test projects (could live in a shared analyzers package) -->
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Test projects do not generate documentation -->
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-
 		<!-- Disable these for test projects
 		- SA0001, SA1600: Documentation-related
 		-->
 		<NoWarn>SA0001,SA1600,$(NoWarn)</NoWarn>
 	</PropertyGroup>
-
 	<ItemGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Parallelize unit tests -->
 		<AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.ParallelizeAttribute">
