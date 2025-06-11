@@ -1,24 +1,19 @@
 <Project>
 	<!-- I intend for my sandbox to represent a snapshot, so I do not use `connorjs-analyzers` NuGet package. -->
 	<Import Project="shared.props" />
-
 	<PropertyGroup>
 		<!-- Add WorkspaceRoot and ProjectArtifacts for simpler naming. -->
 		<WorkspaceRoot>$(MSBuildThisFileDirectory)</WorkspaceRoot>
 		<ProjectArtifacts>$(WorkspaceRoot)artifacts/$(MSBuildProjectName)/</ProjectArtifacts>
-
 		<CSharpier_LogLevel>Debug</CSharpier_LogLevel>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<!-- Artifacts -->
 		<BaseIntermediateOutputPath>$(ProjectArtifacts)obj/</BaseIntermediateOutputPath>
 		<BaseOutputPath>$(ProjectArtifacts)bin/</BaseOutputPath>
-
 		<!-- Framework properties -->
 		<TargetFramework>net9.0</TargetFramework>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Coverage arguments -->
 		<TestingPlatformCommandLineArguments>--coverage --coverage-output $(MSBuildProjectName).cobertura.xml --coverage-settings $(WorkspaceRoot).runsettings --results-directory $(ProjectArtifacts)test-results</TestingPlatformCommandLineArguments>
