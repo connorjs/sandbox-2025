@@ -62,10 +62,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Install
-        run: dotnet restore -v diag
+        run: dotnet restore -v n
 
       - name: CI build
-        run: dotnet test -c Release --no-restore -v diag
+        run: dotnet test -c Release --no-restore -v n
 
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@5.4.7
