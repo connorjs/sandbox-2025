@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Connorjs.Sandbox2025.HelloCs</AssemblyName>
+		<RootNamespace>Connorjs.Sandbox2025.HelloCs</RootNamespace>
+	</PropertyGroup>
+</Project>
