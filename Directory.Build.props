@@ -7,7 +7,7 @@
 		<WorkspaceRoot>$(MSBuildThisFileDirectory)</WorkspaceRoot>
 		<ProjectArtifacts>$(WorkspaceRoot)artifacts/$(MSBuildProjectName)/</ProjectArtifacts>
 
-		<CSharpier_LogLevel>Error</CSharpier_LogLevel>
+		<CSharpier_LogLevel>Debug</CSharpier_LogLevel>
 	</PropertyGroup>
 
 	<PropertyGroup>
