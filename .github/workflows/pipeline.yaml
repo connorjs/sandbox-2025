@@ -24,8 +24,8 @@ jobs:
       - name: Use .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
-          global-json-file: global.json
+          dotnet-version: 10.x
+          dotnet-quality: preview
 
       - name: Print .NET versions
         run: dotnet --list-sdks
