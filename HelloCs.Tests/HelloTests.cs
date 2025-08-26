@@ -6,7 +6,7 @@ namespace Connorjs.Sandbox2025.HelloCs.Tests;
 [TestClass]
 public class HelloTests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(null, "Hello, world!")]
 	[DataRow("", "Hello, world!")]
 	[DataRow(" ", "Hello, world!")]

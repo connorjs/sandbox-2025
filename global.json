@@ -1,8 +1,10 @@
 {
 	"msbuild-sdks": {
-		"MSTest.Sdk": "3.9.2"
+		"MSTest.Sdk": "3.10.3"
 	},
   "sdk": {
-    "version": "9.0.300"
+    "version": "9.0.0",
+    "rollForward": "latestMajor",
+    "allowPrerelease": true
   }
 }
