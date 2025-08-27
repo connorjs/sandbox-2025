@@ -72,7 +72,6 @@ jobs:
         run: >-
           .sonar/scanner/dotnet-sonarscanner begin
           /d:sonar.token="SONAR_TOKEN"
-          /d:sonar.host.url='https://sonarcloud.io'
           /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
           /d:sonar.exclusions='**/*.json,**/*.props'
           /d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
@@ -97,7 +96,7 @@ jobs:
 
       - name: sonarscanner end
         if: ${{ !cancelled() }} # Still publish Sonar if tests failed
-        run: dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+        run: .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
