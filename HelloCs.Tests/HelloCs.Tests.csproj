@@ -1,4 +1,4 @@
-<Project Sdk="MSTest.Sdk">
+﻿<Project Sdk="MSTest.Sdk">
 	<PropertyGroup>
 		<AssemblyName>Connorjs.Sandbox2025.HelloCs.Tests</AssemblyName>
 		<RootNamespace>Connorjs.Sandbox2025.HelloCs.Tests</RootNamespace>
