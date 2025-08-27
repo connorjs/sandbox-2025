@@ -84,8 +84,11 @@ jobs:
       - name: Install
         run: dotnet restore
 
-      - name: CI build
-        run: dotnet test -c Release --no-restore
+      - name: Build
+        run: dotnet build -c Release --no-restore -v diag
+
+      - name: Test
+        run: dotnet test -c Release --no-build -v diag
 
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@c4c5175a441c6603ec614f5084386dabe0e2295b # https://github.com/danielpalme/ReportGenerator-GitHub-Action/releases/tag/5.4.12
