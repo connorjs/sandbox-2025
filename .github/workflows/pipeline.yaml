@@ -2,9 +2,9 @@ name: Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   CiBuild:
@@ -27,9 +27,6 @@ jobs:
           dotnet-version: 10.x
           dotnet-quality: preview
 
-      - name: Print .NET versions
-        run: dotnet --list-sdks
-
       - name: Set up GitVersion
         uses: gittools/actions/gitversion/setup@b82e662a7199df56ac962118e506d9efb9830f82 # https://github.com/GitTools/actions/releases/tag/v4.1.0
         with:
@@ -44,19 +41,43 @@ jobs:
             mode=ContinuousDeployment
           updateProjectFiles: true
 
-      - name: Install SonarQube scanner
-        run: dotnet tool install --global dotnet-sonarscanner
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          mkdir .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
 
       - name: sonarscanner begin
         run: >-
-          dotnet sonarscanner begin
-          -d:sonar.token="$SONAR_TOKEN"
-          -d:sonar.host.url='https://sonarcloud.io'
-          -d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
-          -d:sonar.exclusions='**/*.json,**/*.props'
-          -d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
-          -k:"${GITHUB_REPOSITORY//\//_}"
-          -o:"$GITHUB_REPOSITORY_OWNER"
+          .sonar/scanner/dotnet-sonarscanner begin
+          /d:sonar.token="SONAR_TOKEN"
+          /d:sonar.host.url='https://sonarcloud.io'
+          /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
+          /d:sonar.exclusions='**/*.json,**/*.props'
+          /d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
+          /k:"${GITHUB_REPOSITORY//\//_}"
+          /o:"$GITHUB_REPOSITORY_OWNER"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -76,7 +97,7 @@ jobs:
 
       - name: sonarscanner end
         if: ${{ !cancelled() }} # Still publish Sonar if tests failed
-        run: dotnet sonarscanner end -d:sonar.token="$SONAR_TOKEN"
+        run: dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
