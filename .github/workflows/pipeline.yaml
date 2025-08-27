@@ -31,13 +31,13 @@ jobs:
         run: dotnet --list-sdks
 
       - name: Set up GitVersion
-        uses: gittools/actions/gitversion/setup@v3.2.1
+        uses: gittools/actions/gitversion/setup@b82e662a7199df56ac962118e506d9efb9830f82 # https://github.com/GitTools/actions/releases/tag/v4.1.0
         with:
           versionSpec: 6.3.x
 
       - name: Execute GitVersion
         id: GitVersion
-        uses: gittools/actions/gitversion/execute@v3.2.1
+        uses: gittools/actions/gitversion/execute@b82e662a7199df56ac962118e506d9efb9830f82 # https://github.com/GitTools/actions/releases/tag/v4.1.0
         with:
           overrideConfig: |
             workflow=GitHubFlow/v1
@@ -50,7 +50,7 @@ jobs:
       - name: sonarscanner begin
         run: >-
           dotnet sonarscanner begin
-          -d:sonar.token='${{ secrets.SONAR_TOKEN }}'
+          -d:sonar.token="$SONAR_TOKEN"
           -d:sonar.host.url='https://sonarcloud.io'
           -d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
           -d:sonar.exclusions='**/*.json,**/*.props'
@@ -68,7 +68,7 @@ jobs:
         run: dotnet test -c Release --no-restore
 
       - name: ReportGenerator
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.7
+        uses: danielpalme/ReportGenerator-GitHub-Action@c4c5175a441c6603ec614f5084386dabe0e2295b # https://github.com/danielpalme/ReportGenerator-GitHub-Action/releases/tag/5.4.12
         with:
           reports: artifacts/*/test-results/*.cobertura.xml
           targetdir: artifacts/report
@@ -76,7 +76,7 @@ jobs:
 
       - name: sonarscanner end
         if: ${{ !cancelled() }} # Still publish Sonar if tests failed
-        run: dotnet sonarscanner end -d:sonar.token='${{ secrets.SONAR_TOKEN }}'
+        run: dotnet sonarscanner end -d:sonar.token="$SONAR_TOKEN"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload coverage report to Codecov
         if: ${{ !cancelled() }} # Still upload to CodeCov if tests failed
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # https://github.com/codecov/codecov-action/releases/tag/v5.5.0
         with:
           disable_search: true
           fail_ci_if_error: true
