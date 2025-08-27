@@ -71,7 +71,7 @@ jobs:
       - name: sonarscanner begin
         run: >-
           .sonar/scanner/dotnet-sonarscanner begin
-          /d:sonar.token="SONAR_TOKEN"
+          /d:sonar.token="$SONAR_TOKEN"
           /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
           /d:sonar.exclusions='**/*.json,**/*.props'
           /d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
