@@ -1,0 +1,121 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  CiBuild:
+    name: CI Build
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout self
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full depth (not shallow) for GitVersion
+
+      - name: Use .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.x
+          dotnet-quality: preview
+
+      - name: Set up GitVersion
+        uses: gittools/actions/gitversion/setup@b82e662a7199df56ac962118e506d9efb9830f82 # https://github.com/GitTools/actions/releases/tag/v4.1.0
+        with:
+          versionSpec: 6.3.x
+
+      - name: Execute GitVersion
+        id: GitVersion
+        uses: gittools/actions/gitversion/execute@b82e662a7199df56ac962118e506d9efb9830f82 # https://github.com/GitTools/actions/releases/tag/v4.1.0
+        with:
+          overrideConfig: |
+            workflow=GitHubFlow/v1
+            mode=ContinuousDeployment
+          updateProjectFiles: true
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+
+      - name: sonarscanner begin
+        run: >-
+          .sonar/scanner/dotnet-sonarscanner begin
+          /d:sonar.token="$SONAR_TOKEN"
+          /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
+          /d:sonar.exclusions='**/*.json,**/*.props'
+          /d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
+          /d:sonar.scanner.skipJreProvisioning=true
+          /k:"${GITHUB_REPOSITORY//\//_}"
+          /o:"$GITHUB_REPOSITORY_OWNER"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Install
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Test
+        run: dotnet test -c Release --no-build -v n
+
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@c4c5175a441c6603ec614f5084386dabe0e2295b # https://github.com/danielpalme/ReportGenerator-GitHub-Action/releases/tag/5.4.12
+        with:
+          reports: artifacts/*/test-results/*.cobertura.xml
+          targetdir: artifacts/report
+          reporttypes: Cobertura;HtmlInline;MarkdownSummaryGithub;SonarQube
+
+      - name: sonarscanner end
+        if: ${{ !cancelled() }} # Still publish Sonar if tests failed
+        run: .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Publish coverage in build summary
+        if: ${{ !cancelled() }} # Still publish coverage if tests failed
+        run: cat artifacts/report/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage report to Codecov
+        if: ${{ !cancelled() }} # Still upload to CodeCov if tests failed
+        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # https://github.com/codecov/codecov-action/releases/tag/v5.5.0
+        with:
+          disable_search: true
+          fail_ci_if_error: true
+          files: artifacts/*/test-results/*.cobertura.xml
+          flags: unittests
+          plugins: noop
+          token: ${{ secrets.CODECOV_TOKEN }}

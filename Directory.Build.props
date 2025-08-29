@@ -14,7 +14,7 @@
 		<BaseOutputPath>$(ProjectArtifacts)bin/</BaseOutputPath>
 
 		<!-- Framework properties -->
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
