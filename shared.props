@@ -14,6 +14,7 @@
 
 		<!-- Code analysis properties -->
 		<AnalysisMode>Recommended</AnalysisMode>
+		<AnalysisLevel>10.0</AnalysisLevel>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers> <!-- Defaults to true in .NET 5+ -->
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
@@ -52,15 +53,17 @@
 		<Deterministic>true</Deterministic>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<!-- Turn off “warnings as errors” during debug builds to allow incremental fixes. -->
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	</PropertyGroup>
+
 	<!-- Overrides for test projects (could live in a shared analyzers package) -->
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
-		<!-- Test projects do not generate documentation -->
-		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-
 		<!-- Disable these for test projects
-		- SA0001, SA1600: Documentation-related
+		- SA0001, SA1600, CS1591: Documentation-related
 		-->
-		<NoWarn>SA0001,SA1600,$(NoWarn)</NoWarn>
+		<NoWarn>SA0001,SA1600,CS1591,$(NoWarn)</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup Condition="$(IsTestProject) == 'true'">

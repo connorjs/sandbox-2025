@@ -94,7 +94,7 @@ jobs:
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@c4c5175a441c6603ec614f5084386dabe0e2295b # https://github.com/danielpalme/ReportGenerator-GitHub-Action/releases/tag/5.4.12
         with:
-          reports: artifacts/*/test-results/*.cobertura.xml
+          reports: artifacts/*/TestResults/*.cobertura.xml
           targetdir: artifacts/report
           reporttypes: Cobertura;HtmlInline;MarkdownSummaryGithub;SonarQube
 
