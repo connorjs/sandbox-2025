@@ -1,24 +1,21 @@
 <Project>
 	<!-- I intend for my sandbox to represent a snapshot, so I do not use `connorjs-analyzers` NuGet package. -->
 	<Import Project="shared.props" />
-
 	<PropertyGroup>
 		<!-- Add WorkspaceRoot and ProjectArtifacts for simpler naming. -->
 		<WorkspaceRoot>$(MSBuildThisFileDirectory)</WorkspaceRoot>
-		<ProjectArtifacts>$(WorkspaceRoot)artifacts/$(MSBuildProjectName)/</ProjectArtifacts>
+		<ProjectArtifacts>$(WorkspaceRoot)artifacts\$(MSBuildProjectName)\</ProjectArtifacts>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<!-- Artifacts -->
-		<BaseIntermediateOutputPath>$(ProjectArtifacts)obj/</BaseIntermediateOutputPath>
-		<BaseOutputPath>$(ProjectArtifacts)bin/</BaseOutputPath>
-
+		<BaseIntermediateOutputPath>$(ProjectArtifacts)obj\</BaseIntermediateOutputPath>
+		<BaseOutputPath>$(ProjectArtifacts)bin\</BaseOutputPath>
 		<!-- Framework properties -->
 		<TargetFramework>net10.0</TargetFramework>
+		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Coverage arguments -->
-		<TestingPlatformCommandLineArguments>--coverage --coverage-output $(MSBuildProjectName).cobertura.xml --coverage-settings $(WorkspaceRoot).runsettings --results-directory $(ProjectArtifacts)test-results</TestingPlatformCommandLineArguments>
+		<TestingPlatformCommandLineArguments>--coverage --coverage-output $(MSBuildProjectName).cobertura.xml --coverage-settings $(WorkspaceRoot).runsettings --results-directory $(ProjectArtifacts)TestResults</TestingPlatformCommandLineArguments>
 	</PropertyGroup>
 </Project>
