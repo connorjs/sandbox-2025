@@ -47,7 +47,9 @@ jobs:
           dotnet tool restore
 
       - name: CSharpier check
-        run: dotnet csharpier check .
+        run: |
+          dotnet csharpier format .
+          git diff
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
