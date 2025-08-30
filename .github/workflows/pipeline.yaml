@@ -83,7 +83,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Install
-        run: dotnet restore
+        run: |
+          dotnet restore
+          dotnet tool restore
+
+      - name: CSharpier check
+        run: dotnet csharpier check .
 
       - name: Build
         run: dotnet build -c Release --no-restore
