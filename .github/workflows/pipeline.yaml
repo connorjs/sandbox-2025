@@ -39,7 +39,6 @@ jobs:
           overrideConfig: |
             workflow=GitHubFlow/v1
             mode=ContinuousDeployment
-          updateProjectFiles: true
 
       - name: Install
         run: |
