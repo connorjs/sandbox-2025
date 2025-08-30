@@ -115,7 +115,7 @@ jobs:
         with:
           disable_search: true
           fail_ci_if_error: true
-          files: artifacts/*/test-results/*.cobertura.xml
+          files: artifacts/*/TestResults/*.cobertura.xml
           flags: unittests
           plugins: noop
           token: ${{ secrets.CODECOV_TOKEN }}
