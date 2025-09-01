@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+	<PropertyGroup>
+		<!-- The sentinel to mark restore. -->
+		<JSPS_RestoreSentinel>$(WorkspaceRoot)node_modules\.dotnet-restore</JSPS_RestoreSentinel>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- Files whose timestamps should trigger a restore. -->
+		<JSPS_RestoreInputs Include="$(WorkspaceRoot).node-version" />
+		<JSPS_RestoreInputs Include="$(WorkspaceRoot)package.json" />
+		<JSPS_RestoreInputs Include="$(WorkspaceRoot)package-lock.json" />
+	</ItemGroup>
+	<!--
+	The `JSPS_Restore` target runs install ONCE during the `restore` phase (because it is only in this project).
+	Note 1: It stores a sentinel file in `node_modules` to mark that it has run, so that it does not run again unless inputs change.
+	Note 2: It hooks into the `CollectCentralPackageVersions` target (CPM).
+	-->
+	<Target Name="JSPS_Restore" BeforeTargets="CollectCentralPackageVersions" Inputs="@(JSPS_RestoreInputs)" Outputs="$(JSPS_RestoreSentinel)">
+		<!-- Restore (install). -->
+		<Exec Condition="!Exists('$(JSPS_RestoreSentinel)')" Command="npm ci --strict-peer-deps" WorkingDirectory="$(WorkspaceRoot)" />
+		<!-- Touch the sentinel, so that we do not need to run install next time. -->
+		<Touch Files="$(JSPS_RestoreSentinel)" AlwaysCreate="true" />
+	</Target>
+	<Target Name="Clean_JSPS_Restore" AfterTargets="Clean">
+		<Delete Files="$(JSPS_RestoreSentinel)" />
+	</Target>
+</Project>

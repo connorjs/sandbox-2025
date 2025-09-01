@@ -4,6 +4,7 @@
 		<File Path=".gitattributes" />
 		<File Path=".gitignore" />
 		<File Path=".globalconfig" />
+		<File Path=".node-version" />
 		<File Path=".runsettings" />
 		<File Path="ci-build.ps1" />
 		<File Path="Directory.Build.props" />
@@ -11,10 +12,14 @@
 		<File Path=".config\dotnet-tools.json" />
 		<File Path="global.json" />
 		<File Path="LICENSE" />
+		<File Path="package.json" />
 		<File Path=".github\workflows\pipeline.yaml" />
 		<File Path="README.md" />
 		<File Path="shared.props" />
+		<File Path="tsconfig.json" />
 	</Folder>
-	<Project Path="HelloCs.Tests\HelloCs.Tests.csproj" Type="Classic C#" />
-	<Project Path="HelloCs\HelloCs.csproj" Type="Classic C#" />
+	<Project Path="HelloCs.Tests\HelloCs.Tests.csproj" />
+	<Project Path="HelloCs\HelloCs.csproj" />
+	<Project Path="HelloJs\HelloJs.esproj" />
+	<Project Path="JSPS\JSPS.csproj" />
 </Solution>

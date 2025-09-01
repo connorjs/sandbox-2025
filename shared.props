@@ -1,5 +1,6 @@
 <Project>
 	<!-- This file configures Properties and Items that could live in a shared analyzers package. -->
+	<!--#region shared-->
 	<PropertyGroup Condition="'$(CI)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
@@ -26,42 +27,60 @@
 		<!-- Generated file properties -->
 		<ImplicitUsings>disable</ImplicitUsings>
 		<!-- Prefer explicit usings -->
-		<!-- C# compiler options -->
-		<!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/ -->
-		<!-- Language -->
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<Nullable>enable</Nullable>
-		<!-- Errors and warnings -->
-		<!--
-		1. Default all warns to errors (`TreatWarningsAsErrors`).
-		2. Allow some warns back to warns (`WarningsNotAsErrors`). For example,
-			 a new warning has appeared that broke the build and we need time to
-			 fix it. These SHOULD include an issue link.
-		3. Suppress some warns completely (`NoWarn`). For example, a warning
-			 with which we disagree. These MUST include a comment explaining why.
-		-->
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<WarningsNotAsErrors />
-		<NoWarn />
-		<!-- Code generation -->
-		<Deterministic>true</Deterministic>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<!-- Turn off “warnings as errors” during debug builds to allow incremental fixes. -->
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<!-- Overrides for test projects (could live in a shared analyzers package) -->
-	<PropertyGroup Condition="$(IsTestProject) == 'true'">
-		<!-- Disable these for test projects
-		- SA0001, SA1600, CS1591: Documentation-related
-		-->
-		<NoWarn>SA0001,SA1600,CS1591,$(NoWarn)</NoWarn>
-	</PropertyGroup>
-	<ItemGroup Condition="$(IsTestProject) == 'true'">
-		<!-- Parallelize unit tests -->
-		<AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.ParallelizeAttribute">
-			<Scope>Microsoft.VisualStudio.TestTools.UnitTesting.ExecutionScope.MethodLevel</Scope>
-			<Scope_IsLiteral>true</Scope_IsLiteral>
-		</AssemblyAttribute>
-	</ItemGroup>
+	<!--#endregion-->
+	<Choose>
+		<!--#region esproj-->
+		<When Condition="'$(MSBuildProjectExtension)' == '.esproj'">
+			<PropertyGroup>
+				<TargetFrameworkMoniker>net10.0</TargetFrameworkMoniker>
+				<!-- Skip npm install per-project because we run it once at solution level -->
+				<ShouldRunNpmInstall>false</ShouldRunNpmInstall>
+			</PropertyGroup>
+		</When>
+		<!--#endregion-->
+		<!--#region csproj-->
+		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+			<!-- C# compiler options -->
+			<!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/ -->
+			<PropertyGroup>
+				<!-- Language -->
+				<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+				<Nullable>enable</Nullable>
+				<!-- Errors and warnings -->
+				<!--
+				1. Default all warns to errors (`TreatWarningsAsErrors`).
+				2. Allow some warns back to warns (`WarningsNotAsErrors`). For example,
+					 a new warning has appeared that broke the build and we need time to
+					 fix it. These SHOULD include an issue link.
+				3. Suppress some warns completely (`NoWarn`). For example, a warning
+					 with which we disagree. These MUST include a comment explaining why.
+				-->
+				<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+				<WarningsNotAsErrors />
+				<NoWarn />
+				<!-- Code generation -->
+				<Deterministic>true</Deterministic>
+			</PropertyGroup>
+			<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+				<!-- Turn off “warnings as errors” during debug builds to allow incremental fixes. -->
+				<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+			</PropertyGroup>
+			<!-- Overrides for test projects (could live in a shared analyzers package) -->
+			<PropertyGroup Condition="$(IsTestProject) == 'true'">
+				<!-- Disable these for test projects
+				- SA0001, SA1600, CS1591: Documentation-related
+				-->
+				<NoWarn>SA0001,SA1600,CS1591,$(NoWarn)</NoWarn>
+			</PropertyGroup>
+			<!-- Parallelize unit tests -->
+			<ItemGroup Condition="$(IsTestProject) == 'true'">
+				<AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.ParallelizeAttribute">
+					<Scope>Microsoft.VisualStudio.TestTools.UnitTesting.ExecutionScope.MethodLevel</Scope>
+					<Scope_IsLiteral>true</Scope_IsLiteral>
+				</AssemblyAttribute>
+			</ItemGroup>
+		</When>
+		<!--#endregion-->
+	</Choose>
 </Project>
