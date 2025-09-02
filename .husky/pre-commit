@@ -1,0 +1,2 @@
+dotnet csharpier format --log-level Warning .
+git-format-staged --formatter "biome check --write \"{}\"" .

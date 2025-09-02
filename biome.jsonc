@@ -1,0 +1,101 @@
+{
+	// https://biomejs.dev/reference/configuration/
+	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+	"files": {
+		// Include all project files, plus specific root files.
+		"includes": [ "projects", "*.js", "*.json", "*.jsonc" ],
+		"ignoreUnknown": true
+	},
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"formatter": {
+		"enabled": true,
+		//	Place all configuration in .editorconfig to maximize cross-tool consistency
+		"useEditorconfig": true
+	},
+	"linter": {
+		"enabled": true,
+		"domains": {
+			"project": "all",
+			"react": "all",
+			"test": "all"
+		},
+		"rules": {
+			// Use recommended, plus enable some additional rules as warns.
+			"recommended": true,
+			"a11y": {
+				"noNoninteractiveElementInteractions": "warn"
+			},
+			"complexity": {
+				"noExcessiveCognitiveComplexity": "warn",
+				"noExcessiveNestedTestSuites": "warn",
+				// `noForEach` is in Unicorn recommended, so mark as error.
+				"noForEach": "error",
+				"noUselessStringConcat": "warn",
+				"useSimplifiedLogicExpression": "warn",
+				"useWhile": "warn"
+			},
+			"correctness": {
+				"noGlobalDirnameFilename": "warn"
+			},
+			"performance": {
+				"noAwaitInLoops": "warn",
+				"noBarrelFile": "warn",
+				"useTopLevelRegex": "warn"
+			},
+			"style": {
+				// TypeScript enums are not erasable (they generate code), so do not use them.
+				"noEnum": "error",
+				"noMagicNumbers": "warn",
+				"noNestedTernary": "warn",
+				// Enforce standard naming convention
+				"useFilenamingConvention": {
+					"level": "error", "options": {
+						"strictCase": true,
+						"requireAscii": true,
+						"filenameCases": [ "kebab-case" ]
+					}
+				},
+				"useNumberNamespace": "warn",
+				"useNumericSeparators": "warn"
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			// Include all recommended
+			"recommended": true,
+			// And configure specific ones we want (may duplicate recommended)
+			"source": {
+				"organizeImports": "on",
+				"useSortedAttributes": "on",
+				"useSortedKeys": "off",
+				"useSortedProperties": "on"
+			}
+		}
+	},
+	"javascript": {
+		// Using defaults
+	},
+	"json": {
+		// Using defaults
+	},
+	"css": {
+		"parser": {
+			"cssModules": true
+		},
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"html": {
+		"formatter": {
+			"enabled": true
+		}
+	}
+}

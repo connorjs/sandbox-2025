@@ -16,3 +16,4 @@ describe(`hello`, () => {
 		expect(hello()).toBe(`Hello, world!`);
 	});
 });
+
