@@ -57,19 +57,19 @@ jobs:
         id: cache-sonar-scanner
         uses: actions/cache@v4
         with:
-          path: .sonar/scanner
+          path: ~/sonar/cache
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
-          mkdir -p .sonar/scanner
-          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+          mkdir -p ~/sonar/cache
+          dotnet tool update dotnet-sonarscanner --tool-path ~/sonar/cache
 
       - name: sonarscanner begin
         run: >-
-          .sonar/scanner/dotnet-sonarscanner begin
+          ~/sonar/cache/dotnet-sonarscanner begin
           /d:sonar.token="$SONAR_TOKEN"
           /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
           /d:sonar.exclusions='**/*.json,**/*.props'
@@ -90,7 +90,7 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Test
-        run: dotnet test -c Release --no-build -v n
+        run: dotnet test -c Release --no-build
 
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@c4c5175a441c6603ec614f5084386dabe0e2295b # https://github.com/danielpalme/ReportGenerator-GitHub-Action/releases/tag/5.4.12
@@ -101,7 +101,7 @@ jobs:
 
       - name: sonarscanner end
         if: ${{ !cancelled() }} # Still publish Sonar if tests failed
-        run: .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+        run: ~/sonar/cache/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -14,6 +14,6 @@
 		<File Path=".github\workflows\pipeline.yaml" />
 		<File Path="README.md" />
 	</Folder>
-	<Project Path="HelloCs.Tests\HelloCs.Tests.csproj" Type="Classic C#" />
-	<Project Path="HelloCs\HelloCs.csproj" Type="Classic C#" />
+	<Project Path="projects\HelloCs.Tests\HelloCs.Tests.csproj" Type="Classic C#" />
+	<Project Path="projects\HelloCs\HelloCs.csproj" Type="Classic C#" />
 </Solution>
