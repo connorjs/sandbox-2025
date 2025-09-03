@@ -1,0 +1,41 @@
+<Project>
+	<!-- JS SDK Props: define overridable properties and auto-detection. -->
+	<PropertyGroup Label="JS SDK Defaults">
+		<!-- Directory of the MSBuild project using this SDK. -->
+		<JsProjectDir Condition=" '$(JsProjectDir)' == '' ">$(MSBuildProjectDirectory)</JsProjectDir>
+		<!-- Directory where JS commands run by default. -->
+		<JsWorkingDir Condition=" '$(JsWorkingDir)' == '' ">$(JsProjectDir)</JsWorkingDir>
+		<!-- Repo root assumed two levels up from a project under projects/*/ -->
+		<JsRepoRoot Condition=" '$(JsRepoRoot)' == '' ">$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..'))</JsRepoRoot>
+		<!-- Detect package manager based on lockfile at repo root, but allow overrides. -->
+		<JsPackageManager Condition=" '$(JsPackageManager)' == '' ">npm</JsPackageManager>
+		<!-- Resolve the executable to invoke based on selected package manager -->
+		<JsPmExec Condition=" '$(JsPmExec)' == '' and '$(JsPackageManager)' == 'pnpm' ">pnpm exec</JsPmExec>
+		<JsPmExec Condition=" '$(JsPmExec)' == '' and '$(JsPackageManager)' == 'npm' ">npx</JsPmExec>
+		<JsPmExec Condition=" '$(JsPmExec)' == '' ">npx</JsPmExec>
+		<!-- Echo commands before executing for visibility in logs -->
+		<JsVerbose Condition=" '$(JsVerbose)' == '' ">false</JsVerbose>
+		<!-- Define build tools -->
+		<JsEnableBiome Condition=" '$(JsEnableBiome)' == '' ">true</JsEnableBiome>
+		<JsEnableTypeScript Condition=" '$(JsEnableTypeScript)' == '' ">true</JsEnableTypeScript>
+		<JsEnableVite Condition=" '$(JsEnableVite)' == '' ">true</JsEnableVite>
+		<JsEnableVitest Condition=" '$(JsEnableVitest)' == '' ">true</JsEnableVitest>
+		<!-- Define build and test mapping -->
+		<JsBuildDebugDependsOn Condition="'$(JsBuildDebugDependsOn)' == ''">
+			JsTypeScript;JsVite
+		</JsBuildDebugDependsOn
+		>
+		<JsBuildReleaseDependsOn Condition="'$(JsBuildReleaseDependsOn)' == ''">
+			JsTypeScript;JsVite;JsBiome
+		</JsBuildReleaseDependsOn
+		>
+		<JsTestDebugDependsOn Condition="'$(JsTestDebugDependsOn)' == ''">
+			JsVitest
+		</JsTestDebugDependsOn
+		>
+		<JsTestReleaseDependsOn Condition="'$(JsTestReleaseDependsOn)' == ''">
+			JsVitest
+		</JsTestReleaseDependsOn
+		>
+	</PropertyGroup>
+</Project>

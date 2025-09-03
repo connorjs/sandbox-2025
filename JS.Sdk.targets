@@ -1,0 +1,42 @@
+<Project>
+	<!-- JS SDK Targets: wire JS tasks into .NET lifecycle. -->
+	<!-- Create `Build` and `Test` targets for `Debug` and `Release` configurations. -->
+	<Target Name="JsBuildDebug" Condition=" '$(Configuration)' != 'Release' " BeforeTargets="Build" DependsOnTargets="$(JsBuildDebugDependsOn)" />
+	<Target Name="JsBuildRelease" Condition=" '$(Configuration)' == 'Release' " BeforeTargets="Build" DependsOnTargets="$(JsBuildReleaseDependsOn)" />
+	<Target Name="JsTestDebug" Condition=" '$(Configuration)' != 'Release' " BeforeTargets="Test" DependsOnTargets="$(JsTestDebugDependsOn)" />
+	<Target Name="JsTestRelease" Condition=" '$(Configuration)' == 'Release' " BeforeTargets="Test" DependsOnTargets="$(JsTestReleaseDependsOn)" />
+	<!-- Define all build tool targets. -->
+	<Target Name="JsBiome" Condition=" '$(JsEnableBiome)' == 'true' ">
+		<PropertyGroup>
+			<RunJsCommand>biome</RunJsCommand>
+			<RunJsArgs>check .</RunJsArgs>
+		</PropertyGroup>
+		<CallTarget Targets="_RunJs" />
+	</Target>
+	<Target Name="JsTypeScript" Condition=" '$(JsEnableTypeScript)' == 'true' ">
+		<PropertyGroup>
+			<RunJsCommand>tsc</RunJsCommand>
+			<RunJsArgs />
+		</PropertyGroup>
+		<CallTarget Targets="_RunJs" />
+	</Target>
+	<Target Name="JsVite" Condition=" '$(JsEnableVite)' == 'true' ">
+		<PropertyGroup>
+			<RunJsCommand>vite</RunJsCommand>
+			<RunJsArgs>build</RunJsArgs>
+		</PropertyGroup>
+		<CallTarget Targets="_RunJs" />
+	</Target>
+	<Target Name="JsVitest" Condition=" '$(JsEnableVitest)' == 'true' ">
+		<PropertyGroup>
+			<RunJsCommand>vitest</RunJsCommand>
+			<RunJsArgs>run</RunJsArgs>
+		</PropertyGroup>
+		<CallTarget Targets="_RunJs" />
+	</Target>
+	<!-- Helper target to run a JS package managers script -->
+	<Target Name="_RunJs" Inputs="$(RunJsCommand)">
+		<Message Condition=" '$(JsVerbose)' == 'true' " Importance="High" Text="[JS SDK] $(JsPmExec) cmd='$(RunJsCommand)' args='$(RunJsArgs)' wd='$(JsWorkingDir)'" />
+		<Exec WorkingDirectory="$(JsWorkingDir)" Condition=" '$(RunJsCommand)' != '' " Command="&quot;$(JsPmExec)&quot; $([MSBuild]::Escape('$(RunJsCommand)')) $([MSBuild]::Escape('$(RunJsArgs)'))" />
+	</Target>
+</Project>

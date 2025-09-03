@@ -1,1 +1,13 @@
-<Project Sdk="Microsoft.Build.NoTargets" />
+<Project Sdk="Microsoft.Build.NoTargets">
+	<Import Project="$(MSBuildThisFileDirectory)..\..\JS.Sdk.props" Condition="Exists('$(MSBuildThisFileDirectory)..\..\JS.Sdk.props')" />
+	<!-- Example hooks: user can uncomment and adjust as needed.
+       The example below would run "<pm> run build" and "<pm> run test" in the JS project dir. -->
+	<!--
+  <PropertyGroup>
+    <JsWorkingDir>$(MSBuildThisFileDirectory)</JsWorkingDir>
+    <JsBuildCommand>build</JsBuildCommand>
+    <JsTestCommand>test</JsTestCommand>
+  </PropertyGroup>
+  -->
+	<Import Project="$(MSBuildThisFileDirectory)..\..\JS.Sdk.targets" Condition="Exists('$(MSBuildThisFileDirectory)..\..\JS.Sdk.targets')" />
+</Project>
