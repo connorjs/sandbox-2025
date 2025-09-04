@@ -4,8 +4,9 @@
 	Custom properties.
 	-->
 	<PropertyGroup>
-		<!-- Add WorkspaceRoot and ProjectArtifacts for simpler naming. -->
-		<WorkspaceRoot>$(MSBuildThisFileDirectory)</WorkspaceRoot>
+		<!-- Ensure SolutionDir is defined. -->
+		<SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+		<!-- Define ProjectArtifacts for simpler usage. -->
 		<ProjectArtifacts>$(WorkspaceRoot)artifacts\$(MSBuildProjectName)\</ProjectArtifacts>
 		<!-- Set VSTest property based on our naming convention (and use it for conditions, later). -->
 		<IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>

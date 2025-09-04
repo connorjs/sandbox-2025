@@ -13,10 +13,10 @@
 		</PropertyGroup>
 		<CallTarget Targets="_RunJs" />
 	</Target>
-	<Target Name="JsTypeScript" Inputs="@(JsCommonInputs)" Outputs="$(JsArtifactsDir)\stamps\tsc.stamp" Condition=" '$(JsEnableTypeScript)' == 'true' ">
+	<Target Name="JsTypeScript" Inputs="@(JsCommonInputs)" Outputs="$(JsArtifactsDir)\stamps\tsgo.stamp" Condition=" '$(JsEnableTypeScript)' == 'true' ">
 		<PropertyGroup>
-			<RunJsCommand>tsc</RunJsCommand>
-			<RunJsArgs />
+			<RunJsCommand>tsgo</RunJsCommand>
+			<RunJsArgs>--build $(SolutionDir)\tsgoonfig.base.json --outDir $(JsArtifactsDir)\tsgo --tsBuildInfoFile $(JsArtifactsDir)\tsgo\tsgoonfig.tsbuildinfo</RunJsArgs>
 		</PropertyGroup>
 		<CallTarget Targets="_RunJs" />
 	</Target>

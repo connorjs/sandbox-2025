@@ -1,2 +1,2 @@
-dotnet csharpier format --log-level Warning .
-git-format-staged --formatter "biome check --write \"{}\"" .
+git-format-staged --formatter 'dotnet csharpier --log-level Warning "{}"' -- '*.cs' '*.props' '*.targets'
+git-format-staged --formatter 'biome check --write "{}"' .

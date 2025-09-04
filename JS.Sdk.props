@@ -18,10 +18,10 @@
 		<!-- Echo commands before executing for visibility in logs -->
 		<JsVerbose Condition=" '$(JsVerbose)' == '' ">false</JsVerbose>
 		<!-- Define build tools -->
-		<JsEnableBiome Condition=" '$(JsEnableBiome)' == '' ">true</JsEnableBiome>
-		<JsEnableTypeScript Condition=" '$(JsEnableTypeScript)' == '' ">true</JsEnableTypeScript>
+		<JsEnableBiome Condition=" '$(JsEnableBiome)' == '' ">false</JsEnableBiome>
+		<JsEnableTypeScript Condition=" '$(JsEnableTypeScript)' == '' ">false</JsEnableTypeScript>
 		<JsEnableVite Condition=" '$(JsEnableVite)' == '' ">false</JsEnableVite>
-		<JsEnableVitest Condition=" '$(JsEnableVitest)' == '' ">true</JsEnableVitest>
+		<JsEnableVitest Condition=" '$(JsEnableVitest)' == '' ">false</JsEnableVitest>
 		<!-- Define build and test mapping -->
 		<JsBuildDebugDependsOn Condition="'$(JsBuildDebugDependsOn)' == ''">JsTypeScript;JsVite</JsBuildDebugDependsOn>
 		<JsBuildReleaseDependsOn Condition="'$(JsBuildReleaseDependsOn)' == ''">JsTypeScript;JsVite;JsBiome</JsBuildReleaseDependsOn>

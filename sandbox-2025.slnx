@@ -19,6 +19,8 @@
 		<File Path=".husky\pre-commit" />
 		<File Path="README.md" />
 		<File Path="package.json" />
+		<File Path="tsconfig.json" />
+		<File Path="tsconfig.base.json" />
 	</Folder>
 	<Project Path="projects\HelloCs.Tests\HelloCs.Tests.csproj" />
 	<Project Path="projects\HelloCs\HelloCs.csproj" />

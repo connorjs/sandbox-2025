@@ -1,55 +1,6 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	// https://www.typescriptlang.org/tsconfig
-	"compilerOptions": {
-		// Type checking
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"exactOptionalPropertyTypes": true, // Feel free to remove if too strict
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noPropertyAccessFromIndexSignature": true,
-		"noUncheckedIndexedAccess": true,
-		"strict": true,
-
-		// Modules
-		"allowArbitraryExtensions": true,
-		"allowImportingTsExtensions": true,
-		"module": "ESNext",
-		// We use ESBuild and Vite (or similar), so bundler.
-		// See https://github.com/microsoft/TypeScript/issues/50152 and
-		// https://github.com/microsoft/TypeScript/pull/51669 for context.
-		"moduleResolution": "Bundler",
-
-		// Emit
-		"noEmit": true,
-		"declaration": true,
-		"declarationMap": true,
-		"emitDeclarationOnly": false,
-		"importHelpers": false,
-		"noEmitOnError": true,
-
-		// JavaScript Support
-		"allowJs": false,
-
-		// Interop Constraints
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
-
-		// Language and Environment
-		"jsx": "react-jsx",
-		"target": "ESNext",
-		"useDefineForClassFields": true,
-
-		// Projects
-		"composite": true,
-		"incremental": true,
-
-		// Completeness
-		"skipLibCheck": true
-	}
+	"files": [],
+	"references": [
+		{ "path": "packages/HelloJs" }
+	]
 }
