@@ -3,7 +3,7 @@
 	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
 		// Include all project files, plus specific root files.
-		"includes": [ "projects", "*.js", "*.json", "*.jsonc" ],
+		"includes": ["projects", "*.js", "*.json", "*.jsonc"],
 		"ignoreUnknown": true
 	},
 	"vcs": {
@@ -54,10 +54,11 @@
 				"noNestedTernary": "warn",
 				// Enforce standard naming convention
 				"useFilenamingConvention": {
-					"level": "error", "options": {
+					"level": "error",
+					"options": {
 						"strictCase": true,
 						"requireAscii": true,
-						"filenameCases": [ "kebab-case" ]
+						"filenameCases": ["kebab-case"]
 					}
 				},
 				"useNumberNamespace": "warn",
