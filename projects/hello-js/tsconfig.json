@@ -1,7 +1,8 @@
 {
-	"extends": "../tools/tsconfig.base.json",
+	"extends": "../js-tools/tsconfig.base.json",
 	"compilerOptions": {
 		"outDir": "../../artifacts/HelloJs/tsc",
 		"tsBuildInfoFile": "../../artifacts/HelloJs/tsc/.tsbuildinfo"
-	}
+	},
+	"references": [{ "path": "../js-tools" }]
 }

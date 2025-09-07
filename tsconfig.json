@@ -1,4 +1,7 @@
 {
 	"files": [],
-	"references": [{ "path": "packages/HelloJs" }]
+	"references": [
+		{ "path": "packages/hello-js" },
+		{ "path": "packages/js-tools" }
+	]
 }
