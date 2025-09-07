@@ -12,7 +12,6 @@
 		"@testing-library/react": "^16.3.0",
 		"@testing-library/user-event": "^14.6.1",
 		"@types/node": "^24.3.0",
-		"@typescript/native-preview": "^7.0.0-dev.20250902.1",
 		"@vitejs/plugin-react": "^5.0.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"git-format-staged": "^3.1.1",
@@ -21,6 +20,7 @@
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"rolldown-vite": "^7.1.5",
+		"typescript": "^5.9.2",
 		"vite": "npm:rolldown-vite",
 		"vitest": "^3.2.4"
 	}

@@ -52,7 +52,7 @@
 		Condition=" '$(JsEnableTypeScript)' == 'true' "
 	>
 		<Exec
-			Command="$(JsPmExec) tsgo --build"
+			Command="$(JsPmExec) tsc --build"
 			StandardOutputImportance="$(JsLogImportance)"
 			StandardErrorImportance="$(JsLogImportance)"
 			WorkingDirectory="$(JsWorkingDir)"
@@ -80,7 +80,7 @@
 		Condition=" '$(JsEnableVitest)' == 'true' "
 	>
 		<Exec
-			Command="$(JsPmExec) vitest run"
+			Command="$(JsPmExec) vitest run --coverage"
 			StandardOutputImportance="$(JsLogImportance)"
 			StandardErrorImportance="$(JsLogImportance)"
 			WorkingDirectory="$(JsWorkingDir)"
