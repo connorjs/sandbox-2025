@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<JsEnableBiome>true</JsEnableBiome>
 		<JsEnableTypeScript>true</JsEnableTypeScript>
-		<RootNamespace>tools</RootNamespace>
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)\JS.Sdk.targets" />
 </Project>

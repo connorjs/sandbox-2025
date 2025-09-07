@@ -30,17 +30,13 @@
 		<JsEnableVitest Condition=" '$(JsEnableVitest)' == '' ">false</JsEnableVitest>
 		<!-- Define build and test mapping -->
 		<JsBuildDebugDependsOn Condition="'$(JsBuildDebugDependsOn)' == ''"
-			>JsTypeScript;JsVite</JsBuildDebugDependsOn
+			>JsTypeScript</JsBuildDebugDependsOn
 		>
 		<JsBuildReleaseDependsOn Condition="'$(JsBuildReleaseDependsOn)' == ''"
-			>JsTypeScript;JsVite;JsBiome</JsBuildReleaseDependsOn
+			>JsTypeScript;JsBiome</JsBuildReleaseDependsOn
 		>
-		<JsTestDebugDependsOn Condition="'$(JsTestDebugDependsOn)' == ''"
-			>JsVitest</JsTestDebugDependsOn
-		>
-		<JsTestReleaseDependsOn Condition="'$(JsTestReleaseDependsOn)' == ''"
-			>JsVitest</JsTestReleaseDependsOn
-		>
+		<JsTestDebugDependsOn Condition="'$(JsTestDebugDependsOn)' == ''" />
+		<JsTestReleaseDependsOn Condition="'$(JsTestReleaseDependsOn)' == ''" />
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- Mark every root file (Solution-level) as input to err on side of safety. -->

@@ -3,8 +3,6 @@
 	<PropertyGroup>
 		<JsEnableBiome>true</JsEnableBiome>
 		<JsEnableTypeScript>true</JsEnableTypeScript>
-		<JsEnableVitest>true</JsEnableVitest>
-		<RootNamespace>HelloJs</RootNamespace>
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)\JS.Sdk.targets" />
 </Project>
