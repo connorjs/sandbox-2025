@@ -2,8 +2,8 @@
 	// https://biomejs.dev/reference/configuration/
 	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
-		// Include all project files, plus specific root files.
-		"includes": ["projects", "*.js", "*.json", "*.jsonc"],
+		// Include all project files, plus root files.
+		"includes": ["projects/**/*", "*"],
 		"ignoreUnknown": true
 	},
 	"vcs": {
