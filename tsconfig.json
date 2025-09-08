@@ -1,0 +1,7 @@
+{
+	"files": [],
+	"references": [
+		{ "path": "packages/hello-js" },
+		{ "path": "packages/js-tools" }
+	]
+}

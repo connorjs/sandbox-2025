@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+	<Import Project="$(SolutionDir)\JS.Sdk.props" />
+	<PropertyGroup>
+		<JsEnableBiome>true</JsEnableBiome>
+	</PropertyGroup>
+	<Import Project="$(SolutionDir)\JS.Sdk.targets" />
+</Project>

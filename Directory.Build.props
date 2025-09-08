@@ -4,9 +4,10 @@
 	Custom properties.
 	-->
 	<PropertyGroup>
-		<!-- Add WorkspaceRoot and ProjectArtifacts for simpler naming. -->
-		<WorkspaceRoot>$(MSBuildThisFileDirectory)</WorkspaceRoot>
-		<ProjectArtifacts>$(WorkspaceRoot)artifacts\$(MSBuildProjectName)\</ProjectArtifacts>
+		<!-- Ensure SolutionDir is defined. -->
+		<SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+		<!-- Define ProjectArtifacts for simpler usage. -->
+		<ProjectArtifacts>$(SolutionDir)artifacts\$(MSBuildProjectName)\</ProjectArtifacts>
 		<!-- Set VSTest property based on our naming convention (and use it for conditions, later). -->
 		<IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>
 	</PropertyGroup>
@@ -87,7 +88,7 @@
 	-->
 	<PropertyGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Coverage arguments -->
-		<TestingPlatformCommandLineArguments>--coverage --coverage-output $(MSBuildProjectName).cobertura.xml --coverage-settings $(WorkspaceRoot).runsettings --results-directory $(ProjectArtifacts)TestResults</TestingPlatformCommandLineArguments>
+		<TestingPlatformCommandLineArguments>--coverage --coverage-output $(MSBuildProjectName).cobertura.xml --coverage-settings $(SolutionDir).runsettings --results-directory $(ProjectArtifacts)TestResults</TestingPlatformCommandLineArguments>
 	</PropertyGroup>
 	<ItemGroup Condition="$(IsTestProject) == 'true'">
 		<!-- Parallelize unit tests -->

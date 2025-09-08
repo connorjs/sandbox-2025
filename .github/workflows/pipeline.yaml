@@ -21,6 +21,11 @@ jobs:
         with:
           fetch-depth: 0 # Full depth (not shallow) for GitVersion
 
+      - name: Use Node
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+
       - name: Use .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -42,6 +47,7 @@ jobs:
 
       - name: Install
         run: |
+          npm ci --strict-peer-deps
           dotnet tool restore
           dotnet restore
 
