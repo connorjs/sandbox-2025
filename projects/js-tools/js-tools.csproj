@@ -2,7 +2,6 @@
 	<Import Project="$(SolutionDir)\JS.Sdk.props" />
 	<PropertyGroup>
 		<JsEnableBiome>true</JsEnableBiome>
-		<JsEnableTypeScript>true</JsEnableTypeScript>
 	</PropertyGroup>
 	<Import Project="$(SolutionDir)\JS.Sdk.targets" />
 </Project>

@@ -22,7 +22,7 @@
 		<JsPmExec Condition=" '$(JsPmExec)' == '' and '$(JsPackageManager)' == 'npm' ">npx</JsPmExec>
 		<JsPmExec Condition=" '$(JsPmExec)' == '' ">npx</JsPmExec>
 		<!-- Importance value for JS exec logging (High/Normal/Low/None). -->
-		<JsLogImportance Condition=" '$(JsLogImportance)' == '' ">Low</JsLogImportance>
+		<JsLogImportance Condition=" '$(JsLogImportance)' == '' ">High</JsLogImportance>
 		<!-- Define build tools -->
 		<JsEnableBiome Condition=" '$(JsEnableBiome)' == '' ">false</JsEnableBiome>
 		<JsEnableTypeScript Condition=" '$(JsEnableTypeScript)' == '' ">false</JsEnableTypeScript>

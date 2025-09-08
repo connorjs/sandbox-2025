@@ -57,6 +57,7 @@
 			StandardErrorImportance="$(JsLogImportance)"
 			WorkingDirectory="$(JsWorkingDir)"
 		/>
+		<MakeDir Directories="$(JsArtifactsDir)\tsc" />
 		<Touch Files="$(JsArtifactsDir)\tsc\tsc.stamp" AlwaysCreate="true" />
 	</Target>
 	<Target

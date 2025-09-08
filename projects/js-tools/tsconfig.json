@@ -1,7 +1,0 @@
-{
-	"extends": "./tsconfig.base.json",
-	"compilerOptions": {
-		"outDir": "../../artifacts/tools/tsc",
-		"tsBuildInfoFile": "../../artifacts/tools/tsc/.tsbuildinfo",
-	}
-}

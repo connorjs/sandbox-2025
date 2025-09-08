@@ -19,6 +19,9 @@ if (-not (Get-Command reportgenerator -ErrorAction SilentlyContinue)) {
 Remove-Item -Recurse -Force "artifacts" -ErrorAction SilentlyContinue
 
 # Run the build
+dotnet build `
+	--configuration $configuration `
+	--verbosity $verbosity
 dotnet test `
 	--configuration $configuration `
 	--verbosity $verbosity
