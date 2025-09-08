@@ -45,47 +45,6 @@ jobs:
             workflow=GitHubFlow/v1
             mode=ContinuousDeployment
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: temurin
-
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~/sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache SonarQube Cloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v4
-        with:
-          path: ~/sonar/cache
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Install SonarQube Cloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ~/sonar/cache
-          dotnet tool update dotnet-sonarscanner --tool-path ~/sonar/cache
-
-      - name: sonarscanner begin
-        run: >-
-          ~/sonar/cache/dotnet-sonarscanner begin
-          /d:sonar.token="$SONAR_TOKEN"
-          /d:sonar.test.inclusions='**/*-test/**/*.cs,**/*.test.ts'
-          /d:sonar.exclusions='**/*.json,**/*.props'
-          /d:sonar.coverageReportPaths='artifacts/report/SonarQube.xml'
-          /d:sonar.scanner.skipJreProvisioning=true
-          /k:"${GITHUB_REPOSITORY//\//_}"
-          /o:"$GITHUB_REPOSITORY_OWNER"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       - name: Install
         run: |
           npm ci --strict-peer-deps
@@ -103,14 +62,7 @@ jobs:
         with:
           reports: artifacts/*/TestResults/*.cobertura.xml
           targetdir: artifacts/report
-          reporttypes: Cobertura;HtmlInline;MarkdownSummaryGithub;SonarQube
-
-      - name: sonarscanner end
-        if: ${{ !cancelled() }} # Still publish Sonar if tests failed
-        run: ~/sonar/cache/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          reporttypes: Cobertura;HtmlInline;MarkdownSummaryGithub
 
       - name: Publish coverage in build summary
         if: ${{ !cancelled() }} # Still publish coverage if tests failed
