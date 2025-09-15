@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+	<Import Project="$(SolutionDir)\JS.Sdk.props" />
+	<PropertyGroup>
+		<JsEnableBiome>true</JsEnableBiome>
+		<JsEnableTypeScript>true</JsEnableTypeScript>
+		<JsBuildDebugDependsOn>JsTypeScript;AstroBuild</JsBuildDebugDependsOn>
+		<JsBuildReleaseDependsOn>JsTypeScript;JsBiome;AstroBuild</JsBuildReleaseDependsOn>
+	</PropertyGroup>
+	<Target
+		Name="AstroDev"
+	>
+		<Exec
+			Command="$(JsPmExec) astro dev"
+			StandardOutputImportance="$(JsLogImportance)"
+			StandardErrorImportance="$(JsLogImportance)"
+			WorkingDirectory="$(JsWorkingDir)"
+		/>
+	</Target>
+	<Target
+		Name="AstroBuild"
+	>
+		<Exec
+			Command="$(JsPmExec) astro build"
+			StandardOutputImportance="$(JsLogImportance)"
+			StandardErrorImportance="$(JsLogImportance)"
+			WorkingDirectory="$(JsWorkingDir)"
+		/>
+	</Target>
+	<Import Project="$(SolutionDir)\JS.Sdk.targets" />
+</Project>

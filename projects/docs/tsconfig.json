@@ -1,0 +1,8 @@
+{
+	"extends": "../js-tools/tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "../../artifacts/HelloJs/tsc",
+		"tsBuildInfoFile": "../../artifacts/HelloJs/tsc/.tsbuildinfo"
+	},
+	"include": [ "../../artifacts/astro/types.d.ts", "**/*" ]
+}
