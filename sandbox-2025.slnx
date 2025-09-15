@@ -21,6 +21,7 @@
 		<File Path="package.json" />
 		<File Path="tsconfig.json" />
 	</Folder>
+	<Project Path="projects\docs\docs.csproj" />
 	<Project Path="projects\hello-js\hello-js.csproj" />
 	<Project Path="projects\HelloCs.Tests\HelloCs.Tests.csproj" />
 	<Project Path="projects\HelloCs\HelloCs.csproj" />
